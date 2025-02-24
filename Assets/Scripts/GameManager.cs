@@ -101,9 +101,28 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator Spawn()
     {
-        while(!hasGameFinished)
+        int obstacleCount = 0;
+
+        while (!hasGameFinished)
         {
-            Instantiate(Random.Range(0,6) == 0 ? _scorePrefab : _obstaclePrefab);
+            if (obstacleCount >= 5)
+            {
+                Instantiate(_scorePrefab);
+                obstacleCount = 0; // Reset the counter after spawning a score
+            }
+            else
+            {
+                if (Random.Range(0, 6) == 0)
+                {
+                    Instantiate(_scorePrefab);
+                }
+                else
+                {
+                    Instantiate(_obstaclePrefab);
+                    obstacleCount++;
+                }
+            }
+
             yield return new WaitForSeconds(_spawnInterval);
         }
     }

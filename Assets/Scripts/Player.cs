@@ -19,6 +19,9 @@ public class Player : MonoBehaviour
     private GameObject _explosionPrefab;
 
     [SerializeField]
+    private Transform _transSprite;
+
+    [SerializeField]
     private AudioClip _moveClip, _pointClip, _loseClip;
 
     private float speed;
@@ -66,6 +69,16 @@ public class Player : MonoBehaviour
         if (!canMove) return;
 
         transform.Translate(speed * Time.fixedDeltaTime * Vector3.right);
+
+        // Rotate the game object based on the direction of the speed
+        if (speed > 0)
+        {
+            _transSprite.rotation = Quaternion.Euler(0, 0, -35);
+        }
+        else
+        {
+            _transSprite.rotation = Quaternion.Euler(0, 0, 35);
+        }
         if (transform.position.x < _minX || transform.position.x > _maxX) speed *= -1f;
     }
 
@@ -83,6 +96,7 @@ public class Player : MonoBehaviour
         {
             AudioManager.Instance.PlaySound(_loseClip);
             GameManager.Instance.EndGame();
+            gameObject.SetActive(false);
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
             canMove = false;
             canClick = false;
