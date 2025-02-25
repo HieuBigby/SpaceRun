@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
         DOTween.Init();
         DOTween.defaultAutoPlay = AutoPlay.None;
         DOTween.logBehaviour = LogBehaviour.Default;
+        Application.targetFrameRate = 60;
     }
 
     private void Start()
